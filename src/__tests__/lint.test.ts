@@ -1,6 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { checkPost } from "../lint.js";
 import { PLATFORMS, getPlatform } from "../limits.js";
+import {
+  BLUESKY_POST_302,
+  BLUESKY_POST_PLACEHOLDER,
+  CJK_POST_200,
+  X_POST_308,
+} from "../../scripts/fixtures.mjs";
 
 const platform = (id: string) => {
   const p = getPlatform(id);
@@ -9,17 +15,13 @@ const platform = (id: string) => {
 };
 
 /**
- * The two posts that made this server exist.
- *
- * Both went out of a podcast promo workflow where every count was a claim
- * rather than a measurement. The copy below is synthetic — same shape, same
- * counts, none of the original text — so the numbers stay pinned without
- * shipping anyone's drafts.
+ * The two posts that made this server exist. The text lives in
+ * `scripts/fixtures.mjs` because the README demo recording renders the same
+ * posts, and the GIF would otherwise drift away from these assertions.
  */
 describe("regressions", () => {
   it("catches the Bluesky post that shipped at 302 against 300", () => {
-    const post =
-      "New episode is live. We got into why most teams measure agent reliability wrong, what changes once evals run in CI, and the part nobody writes down: how you decide an agent is good enough to ship. Worth the listen if you build with LLMs. Full episode and transcript here: https://example.com/podcast/64";
+    const post = BLUESKY_POST_302;
     const r = checkPost(post, platform("bluesky"));
     expect(r.length).toBe(302);
     expect(r.limit).toBe(300);
@@ -28,8 +30,7 @@ describe("regressions", () => {
   });
 
   it("catches the X post drafted at 308 against 280", () => {
-    const post =
-      "New episode is live. Why most teams measure agent reliability wrongly, what changes once evals run in CI, and how you actually decide an agent is good enough to ship. Video: https://youtu.be/0Lh8GBhrwzk Transcript: https://example.com/podcast/ep-66 Newsletter: https://example.com/newsletter Chapter timestamps are in the replies.";
+    const post = X_POST_308;
     const r = checkPost(post, platform("x"));
     expect(r.length).toBe(308);
     expect(r.limit).toBe(280);
@@ -47,6 +48,17 @@ describe("regressions", () => {
     );
     expect(withPlaceholder.length).toBe(withLink.length);
     expect(withPlaceholder.warnings.join(" ")).toMatch(/placeholder/);
+  });
+
+  // Pinned because docs/demo.gif shows these exact numbers. If the pricing
+  // changes, this fails and the GIF gets re-recorded rather than going stale.
+  it("leaves the placeholder draft with no headroom a length check would report", () => {
+    const r = checkPost(BLUESKY_POST_PLACEHOLDER, platform("bluesky"));
+    expect([...BLUESKY_POST_PLACEHOLDER].length).toBe(277);
+    expect(r.length).toBe(300);
+    expect(r.over).toBe(false);
+    expect(r.remaining).toBe(0);
+    expect(r.warnings.join(" ")).toMatch(/placeholder was priced as a 28-character link/);
   });
 });
 
@@ -67,7 +79,7 @@ describe("X counting", () => {
   });
 
   it("fails a CJK post that a naive character count would pass", () => {
-    const post = "日".repeat(200);
+    const post = CJK_POST_200;
     expect(post.length).toBe(200);
     const r = checkPost(post, platform("x"));
     expect(r.length).toBe(400);
