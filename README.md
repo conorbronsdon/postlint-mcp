@@ -4,8 +4,10 @@
 
 Check a social post against a platform's real character limit before it ships. X, Bluesky, LinkedIn, Threads, Mastodon, Discord. Pure compute — no API, no auth, no network.
 
+[![npm version](https://img.shields.io/npm/v/@conorbronsdon/postlint-mcp?style=flat-square)](https://www.npmjs.com/package/@conorbronsdon/postlint-mcp)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg?style=flat-square)](LICENSE)
 [![Node](https://img.shields.io/badge/Node-18+-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Glama score](https://glama.ai/mcp/servers/conorbronsdon/postlint-mcp/badges/score.svg)](https://glama.ai/mcp/servers/conorbronsdon/postlint-mcp)
 [![Podcast](https://img.shields.io/badge/Podcast-Chain_of_Thought-purple?style=flat-square)](https://chainofthought.show/?utm_source=github&utm_medium=referral&utm_campaign=repo-readme&utm_content=postlint-mcp)
 [![X](https://img.shields.io/badge/X-@ConorBronsdon-black?style=flat-square&logo=x)](https://x.com/ConorBronsdon)
 
