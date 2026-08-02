@@ -141,7 +141,7 @@ So `[URL]`, `[LINK]`, `[YOUTUBE URL]`, `[SUBSTACK URL]`, and similar are priced 
 
 ## What it does not do
 
-- **It does not post anything.** There is no write path, no credential, and no network call of any kind.
+- **It does not post anything.** There is no write path, no credential, and no network call of any kind. That last one is enforced rather than asserted: a test replaces `fetch`, `XMLHttpRequest`, and `WebSocket` with throws and drives every tool, so a call added later fails CI instead of quietly making this sentence false.
 - **It does not check an instance's actual limit.** Mastodon servers configure their own; this reports the 500 default and tells you to read `configuration.statuses.max_characters` from the target server yourself.
 - **It does not truncate.** A `truncate_to` helper was considered and left out. Cutting a post at a character offset splits URLs, breaks grapheme clusters, and lands mid-sentence, and cutting it at a "safe" boundary silently drops whichever clause happened to be last. Either way the tool would be deciding what the post says. It reports the number and leaves the edit to you.
 - **It does not detect every URL a platform would.** Links with a scheme and `www.`-prefixed hosts always match. A bare domain matches only on a common TLD (`src/count.ts` holds the list), where the real twitter-text implementation carries the full IANA registry. Write `https://` in front of a link and the count is exact.

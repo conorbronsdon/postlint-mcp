@@ -124,3 +124,42 @@ describe("platform_limits", () => {
     expect(out[0].limit).toBe(280);
   });
 });
+
+/**
+ * The README says: "There is no write path, no credential, and no network call
+ * of any kind." That is the strongest thing this server claims, and until this
+ * test existed it was true only by inspection -- nothing failed if a future
+ * change added a fetch. Every global that could reach the network is replaced
+ * with a throw, so a call fails the suite rather than the claim.
+ */
+describe("makes no network calls", () => {
+  const NETWORK_GLOBALS = ["fetch", "XMLHttpRequest", "WebSocket"] as const;
+
+  it("completes every tool without touching a network global", async () => {
+    const saved = new Map<string, unknown>();
+    const attempted: string[] = [];
+
+    for (const name of NETWORK_GLOBALS) {
+      saved.set(name, (globalThis as Record<string, unknown>)[name]);
+      (globalThis as Record<string, unknown>)[name] = (...args: unknown[]) => {
+        attempted.push(`${name}(${String(args[0] ?? "")})`);
+        throw new Error(`network call attempted via ${name}`);
+      };
+    }
+
+    try {
+      const server = createServer();
+      const text = "Shipping a thing today https://example.com/a-fairly-long-path";
+
+      await callTool(server, "check_post", { text, platform: "x" });
+      await callTool(server, "check_post_all", { text });
+      await callTool(server, "platform_limits", {});
+    } finally {
+      for (const [name, value] of saved) {
+        (globalThis as Record<string, unknown>)[name] = value;
+      }
+    }
+
+    expect(attempted).toEqual([]);
+  });
+});
