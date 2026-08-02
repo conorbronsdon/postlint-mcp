@@ -9,6 +9,10 @@ Check a social post against a platform's real character limit before it ships. X
 [![Podcast](https://img.shields.io/badge/Podcast-Chain_of_Thought-purple?style=flat-square)](https://chainofthought.show/?utm_source=github&utm_medium=referral&utm_campaign=repo-readme&utm_content=postlint-mcp)
 [![X](https://img.shields.io/badge/X-@ConorBronsdon-black?style=flat-square&logo=x)](https://x.com/ConorBronsdon)
 
+<img src="docs/demo.gif" alt="Three drafts checked in a terminal: an X post at 308 of 280 with three URLs billed at 23 each, a Bluesky post at 302 of 300, and that same draft with its link still a [URL] placeholder, which a length check reads as 277 but the server prices at exactly 300 of 300" width="800">
+
+<sub>Recorded from <a href="docs/demo.tape">docs/demo.tape</a> with <a href="https://github.com/charmbracelet/vhs">vhs</a>. The posts and counts come from <a href="scripts/fixtures.mjs">scripts/fixtures.mjs</a>, which the regression tests import too.</sub>
+
 </div>
 
 ---
