@@ -1,7 +1,7 @@
 {
   "name": "@conorbronsdon/postlint-mcp",
-  "version": "1.0.0",
-  "description": "MCP server that checks a social post against a platform's real character limit — X t.co URL weighting, Bluesky graphemes, LinkedIn, Threads, Mastodon. Pure compute, no network.",
+  "version": "1.1.0",
+  "description": "MCP server that checks a social post against a platform's real character limit \u2014 X t.co URL weighting, Bluesky graphemes, LinkedIn, Threads, Mastodon. Pure compute, no network.",
   "type": "module",
   "bin": {
     "postlint-mcp": "dist/index.js"
@@ -31,7 +31,7 @@
     "vitest": "^4.1.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.19.0"
   },
   "keywords": [
     "mcp",
