@@ -1,6 +1,6 @@
 {
   "name": "@conorbronsdon/postlint-mcp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "MCP server that checks a social post against a platform's real character limit — X t.co URL weighting, Bluesky graphemes, LinkedIn, Threads, Mastodon. Pure compute, no network.",
   "type": "module",
   "bin": {
