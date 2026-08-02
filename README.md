@@ -51,7 +51,7 @@ Every number above traces to a published source. Widely repeated figures that no
 
 ## Setup
 
-Not on npm yet. Clone and build, then point your client at the built entry point.
+Published on npm. The config blocks below use `npx`, which fetches it on first run; no clone required.
 
 ```bash
 git clone https://github.com/conorbronsdon/postlint-mcp.git
@@ -85,8 +85,8 @@ Add to `~/.codex/config.toml`:
 
 ```toml
 [mcp_servers.postlint]
-command = "node"
-args = ["/absolute/path/to/postlint-mcp/dist/index.js"]
+command = "npx"
+args = ["-y", "@conorbronsdon/postlint-mcp"]
 ```
 
 No token, no environment variables, no network access. Once the package is published, `npx -y @conorbronsdon/postlint-mcp` replaces the `node` invocation everywhere above.
