@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.conorbronsdon/postlint-mcp",
   "title": "Postlint MCP Server",
-  "description": "Check a social post against a platform's real character limit: X t.co URL weighting, Bluesky graphemes, LinkedIn, Threads, Mastodon, Discord. Pure compute, no network.",
+  "description": "Check a social post against a platform's real character limit: X, Bluesky, LinkedIn, Threads.",
   "repository": {
     "url": "https://github.com/conorbronsdon/postlint-mcp",
     "source": "github"
