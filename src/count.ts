@@ -4,7 +4,8 @@
  * Each platform measures a post in a different unit, and none of them is
  * `text.length`. The three that matter:
  *
- *   - X weights characters (Latin 1, everything else 2) and bills every URL at
+ *   - X weights characters (Latin, Greek, Cyrillic, Hebrew and Arabic 1; CJK,
+ *     Hangul and emoji 2) and bills every URL at
  *     a fixed 23 regardless of its real length, because links are rewritten
  *     through t.co.
  *   - Bluesky counts extended grapheme clusters, so a flag or a family emoji is
