@@ -2,6 +2,8 @@
 
 # postlint-mcp
 
+> **Maintenance mode.** This project is stable and receives security fixes. New features aren't planned, but issues and pull requests are still welcome.
+
 Check a social post against a platform's real character limit before it ships. X, Bluesky, LinkedIn, Threads, Mastodon, Discord. Pure compute — no API, no auth, no network.
 
 [![npm version](https://img.shields.io/npm/v/@conorbronsdon/postlint-mcp?style=flat-square)](https://www.npmjs.com/package/@conorbronsdon/postlint-mcp)
