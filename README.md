@@ -72,8 +72,8 @@ Add to your `.mcp.json`:
 {
   "mcpServers": {
     "postlint": {
-      "command": "node",
-      "args": ["/absolute/path/to/postlint-mcp/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "@conorbronsdon/postlint-mcp"]
     }
   }
 }
@@ -93,7 +93,7 @@ command = "npx"
 args = ["-y", "@conorbronsdon/postlint-mcp"]
 ```
 
-No token, no environment variables, no network access. Once the package is published, `npx -y @conorbronsdon/postlint-mcp` replaces the `node` invocation everywhere above.
+No token, no environment variables, no network access. To run a local build instead, set `command` to `node` and `args` to the absolute path of `dist/index.js` in your clone.
 
 ### Verify
 
