@@ -3,7 +3,7 @@ import { z } from "zod";
 import { checkPost } from "./lint.js";
 import { PLATFORMS, PLATFORM_IDS, getPlatform } from "./limits.js";
 
-export const SERVER_VERSION = "0.1.0";
+export const SERVER_VERSION = "1.1.1";
 
 const json = (data: unknown) => ({
   content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }],
