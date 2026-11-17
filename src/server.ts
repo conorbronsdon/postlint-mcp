@@ -14,6 +14,18 @@ const errorResult = (message: string) => ({
   isError: true as const,
 });
 
+/**
+ * Every tool here is pure compute over its arguments: no write path, no state,
+ * no network. Declared explicitly because the MCP spec defaults are the unsafe
+ * values (readOnlyHint false, destructiveHint true, openWorldHint true).
+ */
+export const TOOL_ANNOTATIONS = {
+  readOnlyHint: true,
+  destructiveHint: false,
+  idempotentHint: true,
+  openWorldHint: false,
+} as const;
+
 const textArg = z
   .string()
   .describe(
@@ -35,6 +47,7 @@ export function createServer(): McpServer {
         .enum(PLATFORM_IDS)
         .describe(`Which platform's rules to apply: ${PLATFORM_IDS.join(", ")}.`),
     },
+    TOOL_ANNOTATIONS,
     async ({ text, platform }) => {
       const target = getPlatform(platform);
       if (!target) {
@@ -52,6 +65,7 @@ export function createServer(): McpServer {
     {
       text: textArg,
     },
+    TOOL_ANNOTATIONS,
     async ({ text }) => {
       const rows = PLATFORMS.map((p) => {
         const r = checkPost(text, p);
@@ -83,6 +97,7 @@ export function createServer(): McpServer {
         .optional()
         .describe("Limit the response to one platform. Omit for all of them."),
     },
+    TOOL_ANNOTATIONS,
     async ({ platform }) => {
       const list = platform ? PLATFORMS.filter((p) => p.id === platform) : PLATFORMS;
       return json(
