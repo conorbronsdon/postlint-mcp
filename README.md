@@ -57,6 +57,8 @@ Every number above traces to a published source. Widely repeated figures that no
 
 Published on npm. The config blocks below use `npx`, which fetches it on first run; no clone required.
 
+To build from source instead (only needed for the local-build option under Codex below, or for development):
+
 ```bash
 git clone https://github.com/conorbronsdon/postlint-mcp.git
 cd postlint-mcp
@@ -128,12 +130,14 @@ The same post through `check_post_all`:
   "fits": ["x_premium", "linkedin", "threads", "mastodon", "discord"],
   "over": ["x", "bluesky"],
   "rows": [
-    { "platform": "x", "length": 308, "limit": 280, "over": true, "drivers": ["3 URLs counted as 23 each = 69", "239 other characters counted as 1 each"] },
-    { "platform": "bluesky", "length": 330, "limit": 300, "over": true, "drivers": ["3 URLs counted in full = 91 (Bluesky does not shorten links)", "239 other graphemes"] },
-    { "platform": "mastodon", "length": 308, "limit": 500, "over": false, "remaining": 192 }
+    { "platform": "x", "length": 308, "limit": 280, "unit": "weighted characters", "over": true, "remaining": -28, "drivers": ["3 URLs counted as 23 each = 69", "239 other characters counted as 1 each"] },
+    { "platform": "bluesky", "length": 330, "limit": 300, "unit": "graphemes", "over": true, "remaining": -30, "drivers": ["3 URLs counted in full = 91 (Bluesky does not shorten links)", "239 other graphemes"] },
+    { "platform": "mastodon", "length": 308, "limit": 500, "unit": "graphemes", "over": false, "remaining": 192 }
   ]
 }
 ```
+
+Abridged: the real response has a row for every platform, seven in all, and the other four passing rows look like the Mastodon one.
 
 One post, three different lengths — 308, 330, and 308 again — from the same 330 characters of text. That gap is the whole reason this exists.
 
