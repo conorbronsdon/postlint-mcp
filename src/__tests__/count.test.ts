@@ -68,6 +68,22 @@ describe("weightedLength (X)", () => {
     expect(weightedLength(FLAG_US).length).toBe(2);
   });
 
+  it("bills a keycap or emoji-presentation ©/® as an emoji of two, though its base is light", () => {
+    // Digits, #, *, © and ® sit in the light range, so the base code point
+    // alone would bill these at 1. With the keycap mark or the emoji selector
+    // they are emoji, and an emoji costs 2.
+    expect(weightedLength("1\uFE0F\u20E3")).toEqual({ length: 2, heavyChars: 1, lightChars: 0 });
+    expect(weightedLength("#\uFE0F\u20E3").length).toBe(2);
+    expect(weightedLength("*\u20E3").length).toBe(2);
+    expect(weightedLength("\u00A9\uFE0F").length).toBe(2);
+    expect(weightedLength("\u00AE\uFE0F").length).toBe(2);
+  });
+
+  it("keeps a bare digit, #, © or ® at one when it is plain text", () => {
+    expect(weightedLength("1#*")).toEqual({ length: 3, heavyChars: 0, lightChars: 3 });
+    expect(weightedLength("\u00A9 2026 \u00AE")).toEqual({ length: 8, heavyChars: 0, lightChars: 8 });
+  });
+
   it("bills Cyrillic and Greek at one, since both sit in the light ranges", () => {
     expect(weightedLength("привет").length).toBe(6);
     expect(weightedLength("γειά").length).toBe(4);

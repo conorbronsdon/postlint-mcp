@@ -99,6 +99,22 @@ describe("X counting", () => {
     expect(46 + 8 + 20).toBe(r.length);
   });
 
+  it("fails a numbered-list post whose keycap emoji a light-range count would pass", () => {
+    // Ten keycaps bill 2 each on X. Counted at 1 apiece, this 281 reads as 271
+    // and passes.
+    const keycaps = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"].map(
+      (d) => `${d}\uFE0F\u20E3`,
+    );
+    const post = keycaps.join(" ") + " " + "z".repeat(251);
+    const r = checkPost(post, platform("x"));
+    expect(r.length).toBe(20 + 9 + 1 + 251);
+    expect(r.over).toBe(true);
+    expect(r.drivers).toEqual([
+      "10 non-Latin characters (CJK, Hangul, or emoji) counted as 2 each = 20",
+      "261 other characters counted as 1 each",
+    ]);
+  });
+
   it("applies the same weighting to the Premium 25,000 ceiling", () => {
     const post = "日".repeat(200);
     const free = checkPost(post, platform("x"));

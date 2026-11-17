@@ -259,7 +259,7 @@ export function weightedLength(text: string): WeightedResult {
     // A cluster longer than one code point that starts outside the light ranges
     // is an emoji sequence or a composed non-Latin character: one unit, weight 2.
     const w = xWeightOf(first);
-    if (w === X_DEFAULT_WEIGHT) {
+    if (w === X_DEFAULT_WEIGHT || isLightRangeEmoji(cluster)) {
       weight += X_DEFAULT_WEIGHT;
       heavyChars++;
     } else if (cluster.length === 1 || isCombiningOnly(cluster)) {
@@ -273,6 +273,19 @@ export function weightedLength(text: string): WeightedResult {
     }
   }
   return { length: Math.ceil(weight / X_SCALE), heavyChars, lightChars };
+}
+
+/**
+ * Emoji whose base code point sits inside the light ranges, so `xWeightOf`
+ * alone would bill them 1: keycaps (`1️⃣`, `#️⃣`, `*️⃣`) and `©️` / `®️` in
+ * emoji presentation. twitter-text's emoji parsing bills each one as a single
+ * emoji at the default weight of 2, like any other emoji. A bare `©` or digit
+ * with no emoji selector or keycap mark is text and stays at 1.
+ */
+const LIGHT_RANGE_EMOJI = /^(?:[0-9#*]\uFE0F?\u20E3|[\u00A9\u00AE]\uFE0F)$/u;
+
+function isLightRangeEmoji(cluster: string): boolean {
+  return LIGHT_RANGE_EMOJI.test(cluster);
 }
 
 /** True when every code point after the first is a combining mark. */
