@@ -9,7 +9,7 @@ async function main() {
     // without full ICU would silently return counts that are too low, which is
     // worse than not starting.
     console.error(
-      "Fatal: Intl.Segmenter is unavailable. postlint-mcp needs Node 18+ with full ICU (the default build) to count graphemes.",
+      "Fatal: Intl.Segmenter is unavailable. postlint-mcp needs Node 20.19+ with full ICU (the default build) to count graphemes.",
     );
     process.exit(1);
   }
